@@ -42,11 +42,14 @@ def home():
     return render_template("index.html")
 
 
-@app.route('/add')
+@app.route('/add', methods=["GET", "POST"])
 def add_cafe():
     form = CafeForm()
     if form.validate_on_submit():
-        print("True")
+        with open('cafe-data.csv', mode='a', newline='', encoding='utf-8') as csv_file:
+            csv_data = csv.writer(csv_file, delimiter=',')
+            csv_data.writerow([form.cafe.data, form.Location_URL.data, form.cafe_open_time.data, form.cafe_close_time.data,form.cafe.data, form.cafe_rating.data, form.wifi_rating.data, form.power_rating.data ])
+
     # Exercise:
     # Make the form write a new row into cafe-data.csv
     # with   if form.validate_on_submit()
